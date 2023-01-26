@@ -1,0 +1,58 @@
+﻿@model ShoppingCart
+
+@{
+	ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="row checkoutForm">
+    <h2>Your shopping cart</h2>
+    <h4>Here are the movies in your shopping cart.</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Selected amount</th>
+                <th>Movies</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Subtotal</th>
+                <th></th>
+            </tr>.ShoppingCart.ShoppingCartItems amount, name, .Drink.Price.ToString("c"), .Drink.Price
+        </thead>
+        <tbody>
+            @foreach (var line in Model.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="text-center">@line.Amount</td>
+                    <td class="text-left">@line.movie.Name</td>
+                    <td class="text-right">@line.movie.Price.ToString("c")</td>
+                    <td class="text-right">
+                        @((line.Amount * line.movie.Price).ToString("c"))
+                    </td>
+                    <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-drinkId="@line.movie.Id"></a></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td class="text-right">
+                    @Model.GetShoppingCartTotal().ToString("c")
+                </td>
+            </tr>ShoppingCartTotal.ToString("c")
+        </tfoot>
+    </table>
+
+    <div class="text-right">
+        <div class="btn-group ">
+            <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+            <a class="btn-group">
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Add more drinks<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a asp-controller="Movie" asp-action="List" asp-route-category="Alcoholic">Alcoholic</a></li>
+                    <li><a asp-controller="Movie" asp-action="List" asp-route-category="Non-alcoholic">Non Alcoholic</a></li>
+                </ul>
+            </a>
+        </div>
+    </div>
+</div>
